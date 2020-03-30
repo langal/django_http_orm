@@ -16,9 +16,9 @@ class ModuleSchema(APIView):
     authentication_classes = django_http_orm_settings.DHOM_AUTH_CLASSES
     permission_classes = django_http_orm_settings.DHOM_PERM_CLASSES
 
-    """This endpoint loads up the DB Model schemas.
+    """This endpoint loads up the DB Model schemas for a Django app
 
-    eg.  curl https://your.server.com/api/test/orm/schema/module/app"""
+    eg.  curl https://your.server.com/orm/schema/module/[APP_NAME]"""
     def get(self, request, *args, **kwargs):
         module_name = kwargs.get('path')
         app =  __import__(module_name)
@@ -51,8 +51,7 @@ class Schema(APIView):
     """This endpoint gets a full Model name from the last element of the request PATH
     and basically loads up the matching Class and corresponding fields.
 
-    eg.
-    curl https://your.server.com/api/test/orm/schema/app.models.user.User"""
+    eg.  curl https://your.server.com/orm/schema/[FULL_MODEL_NAME]"""
     def get(self, request, *args, **kwargs):
         path = kwargs.get('path')
         parts = str(path).split('.')
@@ -100,16 +99,16 @@ class Query(APIView):
     and performs a query on the request query parameters.
 
     example GET:
-    curl https://your.server.com/api/test/orm/query/[FULL MODEL NAME]?email=[...]
+    curl https://your.server.com/orm/query/[FULL_MODEL_NAME]?email=[...]
 
     example PUT:
-    curl -X PUT https://your.server.com/api/test/orm/query/[FULL MODEL NAME]/[id] -d '{"first_name": "randi"}'
+    curl -X PUT https://your.server.com/orm/query/[FULL_MODEL_NAME]/[id] -d '{"first_name": "randi"}'
 
     example DELETE:
-    curl -X DELETE https://your.server.com/api/test/orm/query/[FULL MODEL NAME]/[id]
+    curl -X DELETE https://your.server.com/orm/query/[FULL_MODEL_NAME]/[id]
 
     example POST:
-    CURL -X POST https://your.server.com/api/test/orm/query/[FULL MODEL NAME] - d '{"first_name" ...}'
+    CURL -X POST https://your.server.com/orm/query/[FULL_MODEL_NAME] - d '{"first_name" ...}'
     """
 
     authentication_classes = django_http_orm_settings.DHOM_AUTH_CLASSES
