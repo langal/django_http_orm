@@ -1,14 +1,5 @@
-# -*- coding: utf-8 -*-
-from __future__ import unicode_literals
-
-from django.shortcuts import render
-
-# Create your views here.
-# pylint: disable=E1101
 import json
 import inspect
-import logging
-from rest_framework.views import APIView
 from django_enumfield.enum import Value as EnumValue
 from django.http import JsonResponse, HttpResponse
 from django.apps import apps
@@ -16,17 +7,18 @@ from django.core import serializers
 from django.db.models import Model
 from django.db.models.fields.related import ForeignObjectRel
 from django.db.models.fields.related import ForeignKey
+from rest_framework.views import APIView
+from .settings import django_http_orm_settings
 
-logger = logging.getLogger('django')
 
 class ModuleSchema(APIView):
 
-    authentication_classes = []
-    permission_classes = []
+    authentication_classes = django_http_orm_settings.DHOM_AUTH_CLASSES
+    permission_classes = django_http_orm_settings.DHOM_PERM_CLASSES
 
     """This endpoint loads up the DB Model schemas.
 
-    eg.  curl https://your.server.com/api/thing/schema/module/app"""
+    eg.  curl https://your.server.com/api/test/orm/schema/module/app"""
     def get(self, request, *args, **kwargs):
         module_name = kwargs.get('path')
         app =  __import__(module_name)
@@ -53,14 +45,14 @@ def _get_all_models(module):
 
 class Schema(APIView):
 
-    authentication_classes = []
-    permission_classes = []
+    authentication_classes = django_http_orm_settings.DHOM_AUTH_CLASSES
+    permission_classes = django_http_orm_settings.DHOM_PERM_CLASSES
 
     """This endpoint gets a full Model name from the last element of the request PATH
     and basically loads up the matching Class and corresponding fields.
 
     eg.
-    curl https://your.server.com/api/thing/schema/app.models.user.User"""
+    curl https://your.server.com/api/test/orm/schema/app.models.user.User"""
     def get(self, request, *args, **kwargs):
         path = kwargs.get('path')
         parts = str(path).split('.')
@@ -108,17 +100,21 @@ class Query(APIView):
     and performs a query on the request query parameters.
 
     example GET:
-    curl https://your.server.com/api/thing/query/[FULL MODEL NAME]?email=[...]
+    curl https://your.server.com/api/test/orm/query/[FULL MODEL NAME]?email=[...]
 
     example PUT:
-    curl -X PUT https://your.server.com/api/thing/query/[FULL MODEL NAME]/[id] -d '{"first_name": "randi"}'
+    curl -X PUT https://your.server.com/api/test/orm/query/[FULL MODEL NAME]/[id] -d '{"first_name": "randi"}'
 
     example DELETE:
-    curl -X DELETE https://your.server.com/api/thing/query/[FULL MODEL NAME]/[id]
+    curl -X DELETE https://your.server.com/api/test/orm/query/[FULL MODEL NAME]/[id]
 
     example POST:
-    CURL -X POST https://your.server.com/api/thing/query/[FULL MODEL NAME] - d '{"first_name" ...}'
+    CURL -X POST https://your.server.com/api/test/orm/query/[FULL MODEL NAME] - d '{"first_name" ...}'
     """
+
+    authentication_classes = django_http_orm_settings.DHOM_AUTH_CLASSES
+    permission_classes = django_http_orm_settings.DHOM_PERM_CLASSES
+
     def get(self, request, *args, **kwargs):
         path = kwargs.get('path')
         parts = str(path).split('.')
