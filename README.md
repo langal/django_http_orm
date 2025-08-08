@@ -4,7 +4,7 @@ Http Interface over Django ORM
 
 This library provides a simple HTTP interface over the Django ORM:
 
-It proveds the following endpoints:
+It provides the following endpoints:
 
 1.  https://your.server.com/orm/schema/module/[APP_NAME]
 
@@ -24,13 +24,13 @@ This performs an update on the Model instance with "ID" and updates "first_name"
 
 5. DELETE https://your.server.com/orm/query/[FULL_MODEL_NAME]/[id]
 
-This performa s delete
+This performs a delete
 
 6.  POST https://your.server.com/orm/query/[FULL_MODEL_NAME] - d '{"first_name" ...}'
 
-This creates a FUKLL_MODEL_NAME with the attributes specified in the POST body.
+This creates a FULL_MODEL_NAME with the attributes specified in the POST body.
 
-INSTALLTION
+INSTALLATION
 
 You will need to include "django_http_orm" in your INSTALLED_APPS and also include "django_http_orm.urls" in your urls file.
 

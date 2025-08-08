@@ -13,7 +13,7 @@ class Settings():
         
         if getattr(settings, 'DHOM_PERM_CLASSES', False):
             for _class in settings.DHOM_PERM_CLASSES:
-                self.DHOM_AUTH_CLASSES.append(_load_class_from_path(_class))
+                self.DHOM_PERM_CLASSES.append(_load_class_from_path(_class))
 
 
 def _load_class_from_path(path_as_string):

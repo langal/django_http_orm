@@ -95,7 +95,7 @@ class Schema(APIView):
 
 class Query(APIView):
 
-    """This endpoint loads up a Django Model Class object from thr request path
+    """This endpoint loads up a Django Model Class object from the request path
     and performs a query on the request query parameters.
 
     example GET:
@@ -108,7 +108,7 @@ class Query(APIView):
     curl -X DELETE https://your.server.com/orm/query/[FULL_MODEL_NAME]/[id]
 
     example POST:
-    CURL -X POST https://your.server.com/orm/query/[FULL_MODEL_NAME] - d '{"first_name" ...}'
+    curl -X POST https://your.server.com/orm/query/[FULL_MODEL_NAME] - d '{"first_name" ...}'
     """
 
     authentication_classes = django_http_orm_settings.DHOM_AUTH_CLASSES
